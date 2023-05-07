@@ -9,8 +9,15 @@ import 'package:flu_proj/presentation/encryption_algorithms/polyalphabetic.dart'
 import 'package:flu_proj/presentation/encryption_algorithms/realfence.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../../app/di.dart';
+import '../../../../data/data_source/local_data_source.dart';
+import '../../../../domain/models/models.dart';
+
 class MainViewModel extends BaseViewModel
     with MainViewModelInputs, MainViewModelOutputs {
+  final LocalDataSource _localDataSource = instance<LocalDataSource>();
+  UserDataModel? userDataModel;
+
   final StreamController _messageStreamController = BehaviorSubject<String>();
   final StreamController _algorithmStreamController = BehaviorSubject<String>();
   final StreamController _userKeyStreamController = BehaviorSubject<String>();
@@ -24,7 +31,8 @@ class MainViewModel extends BaseViewModel
       BehaviorSubject<void>();
   final MonoalphabeticAlgorithm _monoalphabeticAlgorithm =
       MonoalphabeticAlgorithm();
-
+  final StreamController _profilePicStreamController =
+  BehaviorSubject<String>();
 
 
 
@@ -52,6 +60,7 @@ class MainViewModel extends BaseViewModel
   @override
   void start() {
     //inputState.add(ContentState());
+    _getUserData();
   }
 
   @override
@@ -302,6 +311,16 @@ class MainViewModel extends BaseViewModel
     inputGeneratedKey.add(key);
     _areAllInputValid();
   }
+  _getUserData() async {
+    userDataModel = await _localDataSource.getUserData();
+    inputUserImage.add(userDataModel!.profilePicture);
+  }
+
+  @override
+  Sink get inputUserImage => _profilePicStreamController.sink;
+
+  @override
+  Stream<String> get outputUserImage => _profilePicStreamController.stream.map((profilePicture) => profilePicture);
 }
 
 abstract class MainViewModelInputs {
@@ -318,6 +337,7 @@ abstract class MainViewModelInputs {
   Sink get inputAlgorithm;
 
   Sink get areAllInputsValid;
+  Sink get inputUserImage;
 
   setMessage(String message);
 
@@ -348,4 +368,6 @@ abstract class MainViewModelOutputs {
   Stream<String> get outputAlgorithm;
 
   Stream<bool> get outputAreAllInputsValid;
+  Stream<String> get outputUserImage;
+
 }

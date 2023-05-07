@@ -32,20 +32,14 @@ class _MainViewState extends State<MainView> {
   final LocalDataSource _localDataSource = instance<LocalDataSource>();
   final AppPreferences _appPreferences = instance<AppPreferences>();
 
-  final StreamController _profilePicStreamController =
-      BehaviorSubject<String>();
+
 
   final TextEditingController _messageTextEditingController =
       TextEditingController();
 
   final TextEditingController _keyTextEditingController =
       TextEditingController();
-  UserDataModel? userDataModel;
 
-  _getUserData() async {
-    userDataModel = await _localDataSource.getUserData();
-    _profilePicStreamController.sink.add(userDataModel!.profilePicture);
-  }
 
   bool _isCurrentDialogShowing(BuildContext context) =>
       ModalRoute.of(context)?.isCurrent != true;
@@ -67,7 +61,6 @@ class _MainViewState extends State<MainView> {
   @override
   void initState() {
     bind();
-    _getUserData();
     super.initState();
   }
 
@@ -372,7 +365,7 @@ class _MainViewState extends State<MainView> {
                 bottom: AppPadding.p12,
                 left: AppPadding.p14),
             child: StreamBuilder(
-              stream: _profilePicStreamController.stream,
+              stream: _viewModel.outputUserImage,
               builder: (context, snapshot) {
                 return Container(
                   decoration: BoxDecoration(
