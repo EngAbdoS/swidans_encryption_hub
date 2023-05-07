@@ -39,6 +39,7 @@ Future<void> initAppModule() async {
 initHomeModule() {
   if (!GetIt.I.isRegistered<MainViewModel>()) {
     instance.registerFactory<MainViewModel>(() => MainViewModel());
+    instance.registerLazySingleton<ImagePicker>(() => ImagePicker());
 
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flu_proj/data/data_source/local_data_source.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,17 +31,13 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   final MainViewModel _viewModel = instance<MainViewModel>();
-  final LocalDataSource _localDataSource = instance<LocalDataSource>();
-  final AppPreferences _appPreferences = instance<AppPreferences>();
-
-
+  final ImagePicker _imagePicker = instance<ImagePicker>();
 
   final TextEditingController _messageTextEditingController =
       TextEditingController();
 
   final TextEditingController _keyTextEditingController =
       TextEditingController();
-
 
   bool _isCurrentDialogShowing(BuildContext context) =>
       ModalRoute.of(context)?.isCurrent != true;
@@ -62,30 +60,6 @@ class _MainViewState extends State<MainView> {
   void initState() {
     bind();
     super.initState();
-  }
-
-  _changeLanguage() {
-    _appPreferences.changeAppLanguage();
-    Phoenix.rebirth(context);
-  }
-
-  _logout() {
-    //TODO study ...
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _appPreferences.logout();
-      _localDataSource.clearCache();
-      Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
-      //   _viewModel.dispose();
-      //  super.dispose();
-      dispose();
-      print("scedjual dis");
-    });
-    // Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
-    // _viewModel.dispose();
-    // super.dispose();
-    // dispose();
-    // print("diiiiiiiiiiiiiiiiiiiiiiiiiiis");
-    //Navigator.pushReplacementNamed(context, Routes.loginRoute);
   }
 
   @override
@@ -124,7 +98,7 @@ class _MainViewState extends State<MainView> {
             builder: (context) {
               return Center(
                 child: Container(
-                  padding: const EdgeInsets.all(AppPadding.p12),
+                  padding: const EdgeInsets.all(AppPadding.p20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
@@ -138,7 +112,7 @@ class _MainViewState extends State<MainView> {
                       Radius.circular(AppSize.s40),
                     ),
                   ),
-                  height: AppSize.s100 * 3,
+                  height: AppSize.s100 * 3.5,
                   width: AppSize.s100 * 2.7,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,6 +127,147 @@ class _MainViewState extends State<MainView> {
                       Row(
                         children: [
                           Icon(
+                            Icons.person,
+                            color: ColorManager.primary,
+                            size: AppSize.s20,
+                          ),
+                          TextButton(
+                            autofocus: true,
+                            focusNode: FocusNode(),
+                            onPressed: () {
+                              dismissDialog(context);
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: AppPadding.p28,
+                                          vertical: AppPadding.p28 * 3),
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: AppPadding.p28),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: 20,
+                                              offset: const Offset(-6, 6),
+                                              color: ColorManager.lightPrimary
+                                                  .withOpacity(.3),
+                                            ),
+                                          ],
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(AppSize.s40),
+                                          ),
+                                        ),
+
+                                        child: SingleChildScrollView(
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          child: Center(
+                                            child: SizedBox(
+                                              height: AppSize.s100 * 7.5,
+                                              width: double.maxFinite,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: AppSize.s20 * 2,
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(60),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              offset:
+                                                                  const Offset(
+                                                                      0, 0),
+                                                              color: ColorManager
+                                                                  .lightPrimary
+                                                                  .withOpacity(
+                                                                      .1),
+                                                              blurRadius: 10),
+                                                        ]),
+                                                    child: GestureDetector(
+                                                      onTap: () =>
+                                                          _showPicker(context),
+                                                      child: Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          150),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    offset:
+                                                                        const Offset(
+                                                                            0,
+                                                                            0),
+                                                                    color: ColorManager
+                                                                        .lightPrimary
+                                                                        .withOpacity(
+                                                                            .3),
+                                                                    blurRadius:
+                                                                        10),
+                                                              ]),
+                                                          child: StreamBuilder(
+                                                              stream: _viewModel
+                                                                  .outputUserImage,
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                print(snapshot.data);
+                                                                return CircleAvatar(
+                                                                  radius: AppSize
+                                                                          .s40 *
+                                                                      2.5,
+                                                                  backgroundImage:
+                                                                      Image.network(
+                                                                          snapshot.data ??
+                                                                              "https://www.snapon.co.za/images/thumbs/default-image_550.png").image,
+                                                                );
+                                                              })),
+                                                    ),
+                                                  ),
+
+                                                  //////////////////////
+                                                  const SizedBox(
+                                                    height: AppSize.s20 * 2,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: AppSize.s20 * 2,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+
+                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                      ),
+                                    );
+                                  });
+                            },
+                            clipBehavior: Clip.none,
+                            style: TextButton.styleFrom(
+                                primary: ColorManager.lightPrimary),
+                            child: Text(
+                              _viewModel.userDataModel!.name ?? "",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(fontSize: AppSize.s18 * .9),
+                            ).tr(),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
                             Icons.language_outlined,
                             color: ColorManager.primary,
                             size: AppSize.s20,
@@ -160,7 +275,7 @@ class _MainViewState extends State<MainView> {
                           TextButton(
                             autofocus: true,
                             focusNode: FocusNode(),
-                            onPressed: () => _changeLanguage(),
+                            onPressed: () => _viewModel.changeLanguage(context),
                             clipBehavior: Clip.none,
                             style: TextButton.styleFrom(
                                 primary: ColorManager.lightPrimary),
@@ -338,7 +453,7 @@ class _MainViewState extends State<MainView> {
                           TextButton(
                             autofocus: true,
                             focusNode: FocusNode(),
-                            onPressed: () => _logout(),
+                            onPressed: () => _viewModel.logout(context),
                             clipBehavior: Clip.none,
                             style: TextButton.styleFrom(
                                 primary: ColorManager.lightPrimary),
@@ -813,6 +928,46 @@ class _MainViewState extends State<MainView> {
         ),
       ],
     );
+  }
+
+  _showPicker(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+              child: Wrap(
+            children: [
+              ListTile(
+                trailing: const Icon(Icons.arrow_forward),
+                leading: const Icon(Icons.photo),
+                title: const Text(AppStrings.photoGallery).tr(),
+                onTap: () {
+                  _imageFromGallery();
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                trailing: const Icon(Icons.arrow_forward),
+                leading: const Icon(Icons.camera_alt_outlined),
+                title: const Text(AppStrings.photoCamera).tr(),
+                onTap: () {
+                  _imageFromCamera();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ));
+        });
+  }
+
+  _imageFromGallery() async {
+    var image = await _imagePicker.pickImage(source: ImageSource.gallery);
+    _viewModel.setProfilePicture(File(image?.path ?? ""));
+  }
+
+  _imageFromCamera() async {
+    var image = await _imagePicker.pickImage(source: ImageSource.camera);
+    _viewModel.setProfilePicture(File(image?.path ?? ""));
   }
 
   @override

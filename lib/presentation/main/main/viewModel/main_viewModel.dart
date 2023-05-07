@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flu_proj/presentation/base/base_view_model.dart';
 import 'package:flu_proj/presentation/encryption_algorithms/autoKey.dart';
 import 'package:flu_proj/presentation/encryption_algorithms/caesar.dart';
@@ -7,15 +11,22 @@ import 'package:flu_proj/presentation/encryption_algorithms/monoAlphapitec.dart'
 import 'package:flu_proj/presentation/encryption_algorithms/playfair.dart';
 import 'package:flu_proj/presentation/encryption_algorithms/polyalphabetic.dart';
 import 'package:flu_proj/presentation/encryption_algorithms/realfence.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../../app/app_prefs.dart';
 import '../../../../app/di.dart';
 import '../../../../data/data_source/local_data_source.dart';
 import '../../../../domain/models/models.dart';
+import '../../../resourses/router_manager.dart';
 
 class MainViewModel extends BaseViewModel
     with MainViewModelInputs, MainViewModelOutputs {
   final LocalDataSource _localDataSource = instance<LocalDataSource>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
+
   UserDataModel? userDataModel;
 
   final StreamController _messageStreamController = BehaviorSubject<String>();
@@ -32,9 +43,7 @@ class MainViewModel extends BaseViewModel
   final MonoalphabeticAlgorithm _monoalphabeticAlgorithm =
       MonoalphabeticAlgorithm();
   final StreamController _profilePicStreamController =
-  BehaviorSubject<String>();
-
-
+      BehaviorSubject<String>();
 
   final CaesarAlgorithm _caesarAlgorithm = CaesarAlgorithm();
   final PlayfairAlgorithm _playfairAlgorithm = PlayfairAlgorithm();
@@ -47,6 +56,7 @@ class MainViewModel extends BaseViewModel
   String userKey = "";
   int index = 0;
   bool willUserEnterKey = false;
+  File? profilePic;
   List<String> algorithms = [
     "Monoaphpetic",
     "Caesar",
@@ -311,16 +321,61 @@ class MainViewModel extends BaseViewModel
     inputGeneratedKey.add(key);
     _areAllInputValid();
   }
+
   _getUserData() async {
     userDataModel = await _localDataSource.getUserData();
     inputUserImage.add(userDataModel!.profilePicture);
+  }
+
+  changeLanguage(BuildContext context) {
+    _appPreferences.changeAppLanguage();
+    Phoenix.rebirth(context);
+  }
+
+  logout(BuildContext context) {
+    //TODO study ...
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _appPreferences.logout();
+      _localDataSource.clearCache();
+      Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
+      //   _viewModel.dispose();
+      //  super.dispose();
+      dispose();
+      print("scedjual dis");
+    });
+    // Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
+    // _viewModel.dispose();
+    // super.dispose();
+    // dispose();
+    // print("diiiiiiiiiiiiiiiiiiiiiiiiiiis");
+    //Navigator.pushReplacementNamed(context, Routes.loginRoute);
   }
 
   @override
   Sink get inputUserImage => _profilePicStreamController.sink;
 
   @override
-  Stream<String> get outputUserImage => _profilePicStreamController.stream.map((profilePicture) => profilePicture);
+  Stream<String> get outputUserImage => _profilePicStreamController.stream
+      .map((profilePicture) => profilePicture);
+
+  setProfilePicture(File profilePicture) async {
+    profilePic = profilePicture;
+    var storageRef =
+        FirebaseStorage.instance.ref().child(userDataModel!.name ?? "unKnown");
+    await storageRef.putFile(profilePicture);
+
+    await storageRef.getDownloadURL().then((imageURL) => {
+          print("get itttt"),
+          inputUserImage.add(imageURL),
+          //update data base
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .set({"profilePicture": imageURL}, SetOptions(merge: true))
+        });
+    await _getUserData();
+    //
+  }
 }
 
 abstract class MainViewModelInputs {
@@ -337,6 +392,7 @@ abstract class MainViewModelInputs {
   Sink get inputAlgorithm;
 
   Sink get areAllInputsValid;
+
   Sink get inputUserImage;
 
   setMessage(String message);
@@ -368,6 +424,6 @@ abstract class MainViewModelOutputs {
   Stream<String> get outputAlgorithm;
 
   Stream<bool> get outputAreAllInputsValid;
-  Stream<String> get outputUserImage;
 
+  Stream<String> get outputUserImage;
 }

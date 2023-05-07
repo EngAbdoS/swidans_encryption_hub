@@ -11,7 +11,6 @@ import 'package:flu_proj/presentation/resourses/color_manager.dart';
 import 'package:flu_proj/presentation/resourses/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../app/app_prefs.dart';
@@ -61,14 +60,12 @@ class _RegisterViewState extends State<RegisterView> {
         //TODO study ...
         SchedulerBinding.instance.addPostFrameCallback((_) {
           _appPreferences.setLoggedIn();
-          if(FirebaseAuth.instance.currentUser!.emailVerified){
+          if (FirebaseAuth.instance.currentUser!.emailVerified) {
             Navigator.of(context).pushReplacementNamed(Routes.mainRoute);
-
-          }else
-            {
-              Navigator.of(context).pushReplacementNamed(Routes.verificationRoute);
-
-            }
+          } else {
+            Navigator.of(context)
+                .pushReplacementNamed(Routes.verificationRoute);
+          }
         });
       }
     });
@@ -111,19 +108,18 @@ class _RegisterViewState extends State<RegisterView> {
         child: Form(
           key: _formKey,
           child: Column(
-            children: [///////////**********************************************************
-               Center(
-              child:  Container(
-
-                  padding:  const EdgeInsets.only(
+            children: [
+              ///////////**********************************************************
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.only(
                       left: AppPadding.p28, right: AppPadding.p28),
                   child: GestureDetector(
                     onTap: () {
                       _showPicker(context);
                     },
                     child: CircleAvatar(
-                        radius: AppSize.s100*0.92,
-                        child: _getMediaWidget()),
+                        radius: AppSize.s100 * 0.92, child: _getMediaWidget()),
                   ),
                 ),
               ),
@@ -361,35 +357,21 @@ class _RegisterViewState extends State<RegisterView> {
     return StreamBuilder<File>(
       stream: _viewModel.outputIsProfilePictureValid,
       builder: (context, snapshot) {
-        return  _pickedImage(snapshot.data)
-        ;
+        return _pickedImage(snapshot.data);
       },
     );
   }
 
   Widget _pickedImage(File? image) {
-
-    if(image != null && image.path.isNotEmpty){
-
+    if (image != null && image.path.isNotEmpty) {
       return CircleAvatar(
-        radius: AppSize.s100*.9,
-
-        backgroundImage: Image.file(image).image
-    )
-    ;
-    }else
-      {
+          radius: AppSize.s100 * .9, backgroundImage: Image.file(image).image);
+    } else {
       return const CircleAvatar(
-      radius: AppSize.s100*.9,
-      backgroundImage:AssetImage(ImageAssets.empty) ,
-      )
-      ;
-      }
-
-
-
-
-
+        radius: AppSize.s100 * .9,
+        backgroundImage: AssetImage(ImageAssets.empty),
+      );
+    }
   }
 
   @override
