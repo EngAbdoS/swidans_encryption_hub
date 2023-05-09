@@ -358,7 +358,7 @@ class MainViewModel extends BaseViewModel
   Stream<String> get outputUserImage => _profilePicStreamController.stream
       .map((profilePicture) => profilePicture);
 
-  setProfilePicture(File profilePicture) async {
+  setProfilePicture(File profilePicture, BuildContext context) async {
     profilePic = profilePicture;
     var storageRef =
         FirebaseStorage.instance.ref().child(userDataModel!.name ?? "unKnown");
@@ -374,8 +374,10 @@ class MainViewModel extends BaseViewModel
               .set({"profilePicture": imageURL}, SetOptions(merge: true))
         });
     await _getUserData();
-    //
+    Phoenix.rebirth(context);
   }
+
+  setUserName() async {}
 }
 
 abstract class MainViewModelInputs {

@@ -1,26 +1,18 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flu_proj/data/data_source/local_data_source.dart';
-import 'package:flu_proj/domain/models/models.dart';
 import 'package:flu_proj/presentation/common/state_renderer/state_renderer_imp.dart';
 import 'package:flu_proj/presentation/main/main/viewModel/main_viewModel.dart';
 import 'package:flu_proj/presentation/resourses/color_manager.dart';
 import 'package:flu_proj/presentation/resourses/strings_manager.dart';
 import 'package:flu_proj/presentation/resourses/values_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../app/app_prefs.dart';
 import '../../../../app/di.dart';
 import '../../../resourses/assets_manager.dart';
-import '../../../resourses/router_manager.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -177,63 +169,135 @@ class _MainViewState extends State<MainView> {
                                                   const SizedBox(
                                                     height: AppSize.s20 * 2,
                                                   ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(60),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  const Offset(
-                                                                      0, 0),
-                                                              color: ColorManager
-                                                                  .lightPrimary
-                                                                  .withOpacity(
-                                                                      .1),
-                                                              blurRadius: 10),
-                                                        ]),
-                                                    child: GestureDetector(
-                                                      onTap: () =>
-                                                          _showPicker(context),
-                                                      child: Container(
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          150),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                    offset:
-                                                                        const Offset(
+                                                  Stack(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        60),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                  offset:
+                                                                      const Offset(
+                                                                          0, 0),
+                                                                  color: ColorManager
+                                                                      .lightPrimary
+                                                                      .withOpacity(
+                                                                          .1),
+                                                                  blurRadius:
+                                                                      10),
+                                                            ]),
+                                                        child: GestureDetector(
+                                                          onTap: () =>
+                                                              _showPicker(
+                                                                  context),
+                                                          child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              150),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        offset: const Offset(
                                                                             0,
                                                                             0),
-                                                                    color: ColorManager
-                                                                        .lightPrimary
-                                                                        .withOpacity(
-                                                                            .3),
-                                                                    blurRadius:
-                                                                        10),
-                                                              ]),
-                                                          child: StreamBuilder(
-                                                              stream: _viewModel
-                                                                  .outputUserImage,
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                print(snapshot.data);
-                                                                return CircleAvatar(
-                                                                  radius: AppSize
-                                                                          .s40 *
-                                                                      2.5,
-                                                                  backgroundImage:
-                                                                      Image.network(
-                                                                          snapshot.data ??
-                                                                              "https://www.snapon.co.za/images/thumbs/default-image_550.png").image,
-                                                                );
-                                                              })),
+                                                                        color: ColorManager
+                                                                            .lightPrimary
+                                                                            .withOpacity(
+                                                                                .3),
+                                                                        blurRadius:
+                                                                            10),
+                                                                  ]),
+                                                              child:
+                                                                  StreamBuilder(
+                                                                      stream: _viewModel
+                                                                          .outputUserImage,
+                                                                      builder:
+                                                                          (context,
+                                                                              snapshot) {
+                                                                        print(snapshot
+                                                                            .data);
+                                                                        return CircleAvatar(
+                                                                          radius:
+                                                                              AppSize.s40 * 2.5,
+                                                                          backgroundImage:
+                                                                              Image.network(snapshot.data ?? "https://www.snapon.co.za/images/thumbs/default-image_550.png").image,
+                                                                        );
+                                                                      })),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .all(
+                                                                AppPadding.p28 *
+                                                                    .5),
+                                                        child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              color:
+                                                                  ColorManager
+                                                                      .white,
+                                                            ),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    3),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .edit_rounded,
+                                                              color: ColorManager
+                                                                  .lightPrimary,
+                                                              size:
+                                                                  AppSize.s20 *
+                                                                      1.3,
+                                                            )),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: AppSize.s20 * 3,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () => _viewModel
+                                                        .setUserName(),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          _viewModel
+                                                                  .userDataModel!
+                                                                  .name ??
+                                                              "",
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .labelSmall!
+                                                              .copyWith(
+                                                                  fontSize:
+                                                                      AppSize.s20 *
+                                                                          1.3),
+                                                        ),
+                                                        SizedBox(
+                                                          width: AppSize.s4,
+                                                        ),
+                                                        Icon(
+                                                          Icons.edit_rounded,
+                                                          color: ColorManager
+                                                              .lightPrimary,
+                                                          size:
+                                                              AppSize.s20 * .9,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-
                                                   //////////////////////
                                                   const SizedBox(
                                                     height: AppSize.s20 * 2,
@@ -962,12 +1026,12 @@ class _MainViewState extends State<MainView> {
 
   _imageFromGallery() async {
     var image = await _imagePicker.pickImage(source: ImageSource.gallery);
-    _viewModel.setProfilePicture(File(image?.path ?? ""));
+    _viewModel.setProfilePicture(File(image?.path ?? ""), context);
   }
 
   _imageFromCamera() async {
     var image = await _imagePicker.pickImage(source: ImageSource.camera);
-    _viewModel.setProfilePicture(File(image?.path ?? ""));
+    _viewModel.setProfilePicture(File(image?.path ?? ""), context);
   }
 
   @override
