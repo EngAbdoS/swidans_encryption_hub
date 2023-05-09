@@ -247,7 +247,7 @@ class _MainViewState extends State<MainView> {
                                                                       .white,
                                                             ),
                                                             padding:
-                                                                EdgeInsets.all(
+                                                                const EdgeInsets.all(
                                                                     3),
                                                             child: Icon(
                                                               Icons
@@ -261,12 +261,36 @@ class _MainViewState extends State<MainView> {
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: AppSize.s20 * 3,
                                                   ),
                                                   GestureDetector(
-                                                    onTap: () => _viewModel
-                                                        .setUserName(),
+                                                    onTap: () => showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          final TextEditingController
+                                                              _textFieldController =
+                                                              TextEditingController();
+
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                                'Change your user name'),
+                                                            content: TextField(
+                                                              onChanged:
+                                                                  (value) {},
+                                                              onSubmitted: (username) =>
+                                                                  _viewModel.setUserName(
+                                                                      username,
+                                                                      context),
+                                                              controller:
+                                                                  _textFieldController,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                      hintText:
+                                                                          "enter user name"),
+                                                            ),
+                                                          );
+                                                        }),
                                                     child: Row(
                                                       mainAxisSize:
                                                           MainAxisSize.min,
@@ -285,7 +309,7 @@ class _MainViewState extends State<MainView> {
                                                                       AppSize.s20 *
                                                                           1.3),
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           width: AppSize.s4,
                                                         ),
                                                         Icon(
@@ -298,6 +322,12 @@ class _MainViewState extends State<MainView> {
                                                       ],
                                                     ),
                                                   ),
+                                                  const SizedBox(
+                                                    height: AppSize.s20 * 2,
+                                                  ),
+
+                                                  const Text("bio"),
+
                                                   //////////////////////
                                                   const SizedBox(
                                                     height: AppSize.s20 * 2,

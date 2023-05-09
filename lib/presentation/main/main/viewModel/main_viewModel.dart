@@ -373,11 +373,19 @@ class MainViewModel extends BaseViewModel
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .set({"profilePicture": imageURL}, SetOptions(merge: true))
         });
-    await _getUserData();
+   // await _getUserData();
     Phoenix.rebirth(context);
   }
 
-  setUserName() async {}
+  setUserName(String username,BuildContext context) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({"name": username}, SetOptions(merge: true));
+    Phoenix.rebirth(context);
+
+
+  }
 }
 
 abstract class MainViewModelInputs {
