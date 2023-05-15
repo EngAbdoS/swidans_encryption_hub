@@ -6,7 +6,7 @@
 
 class UserDataModel {
   UserDataModel(this.uId, this.email, this.mobileNumber, this.countryMobileCode,
-      this.profilePicture, this.name, this.password, this.isVerefide);
+      this.profilePicture, this.name, this.password,this.bio, this.isVerefide);
 
   String? uId;
   String? email;
@@ -15,6 +15,7 @@ class UserDataModel {
   String? profilePicture;
   String? name;
   String? password;
+  String?bio;
   bool? isVerefide;
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +26,7 @@ class UserDataModel {
     profilePicture = json['profilePicture'];
     name = json['name'];
     password = json['password'];
+    bio=json['bio']??"";
     isVerefide = json['isVerefide'];
   }
 }

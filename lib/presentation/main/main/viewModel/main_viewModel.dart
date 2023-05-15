@@ -43,7 +43,9 @@ class MainViewModel extends BaseViewModel
   final MonoalphabeticAlgorithm _monoalphabeticAlgorithm =
       MonoalphabeticAlgorithm();
   final StreamController _profilePicStreamController =
-      BehaviorSubject<String>();
+  BehaviorSubject<String>();
+  final StreamController _BioController =
+  BehaviorSubject<String>();
 
   final CaesarAlgorithm _caesarAlgorithm = CaesarAlgorithm();
   final PlayfairAlgorithm _playfairAlgorithm = PlayfairAlgorithm();
@@ -325,6 +327,7 @@ class MainViewModel extends BaseViewModel
   _getUserData() async {
     userDataModel = await _localDataSource.getUserData();
     inputUserImage.add(userDataModel!.profilePicture);
+    inputUserBio.add(userDataModel!.bio);
   }
 
   changeLanguage(BuildContext context) {
@@ -386,6 +389,24 @@ class MainViewModel extends BaseViewModel
 
 
   }
+
+  setUserBio(String bio)
+ async {
+   inputUserBio.add(bio);
+   await FirebaseFirestore.instance
+       .collection('users')
+       .doc(FirebaseAuth.instance.currentUser!.uid)
+       .set({"bio": bio}, SetOptions(merge: true)
+   );
+
+
+ }
+
+  @override
+  Sink get inputUserBio =>_BioController.sink;
+
+  @override
+  Stream<String> get outputUserBio =>_BioController.stream.map((bio) => bio);
 }
 
 abstract class MainViewModelInputs {
@@ -404,6 +425,7 @@ abstract class MainViewModelInputs {
   Sink get areAllInputsValid;
 
   Sink get inputUserImage;
+  Sink get inputUserBio;
 
   setMessage(String message);
 
@@ -436,4 +458,5 @@ abstract class MainViewModelOutputs {
   Stream<bool> get outputAreAllInputsValid;
 
   Stream<String> get outputUserImage;
+  Stream<String> get outputUserBio;
 }

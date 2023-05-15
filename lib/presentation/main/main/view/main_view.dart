@@ -247,8 +247,8 @@ class _MainViewState extends State<MainView> {
                                                                       .white,
                                                             ),
                                                             padding:
-                                                                const EdgeInsets.all(
-                                                                    3),
+                                                                const EdgeInsets
+                                                                    .all(3),
                                                             child: Icon(
                                                               Icons
                                                                   .edit_rounded,
@@ -264,12 +264,13 @@ class _MainViewState extends State<MainView> {
                                                   const SizedBox(
                                                     height: AppSize.s20 * 3,
                                                   ),
+                                                  //// userName
                                                   GestureDetector(
                                                     onTap: () => showDialog(
                                                         context: context,
                                                         builder: (context) {
                                                           final TextEditingController
-                                                              _textFieldController =
+                                                              textFieldController =
                                                               TextEditingController();
 
                                                           return AlertDialog(
@@ -283,7 +284,7 @@ class _MainViewState extends State<MainView> {
                                                                       username,
                                                                       context),
                                                               controller:
-                                                                  _textFieldController,
+                                                                  textFieldController,
                                                               decoration:
                                                                   const InputDecoration(
                                                                       hintText:
@@ -322,11 +323,102 @@ class _MainViewState extends State<MainView> {
                                                       ],
                                                     ),
                                                   ),
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 2,
-                                                  ),
 
-                                                  const Text("bio"),
+                                                  GestureDetector(
+                                                    onTap: () => showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          final TextEditingController
+                                                              textFieldController =
+                                                              TextEditingController();
+
+                                                          return AlertDialog(
+                                                            title: const Text(
+                                                                'Change your Bio'),
+                                                            content: TextField(
+                                                              onChanged:
+                                                                  (value) {},
+                                                              onSubmitted: (bio) =>
+                                                                  _viewModel
+                                                                      .setUserBio(
+                                                                          bio),
+                                                              controller:
+                                                                  textFieldController,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                      hintText:
+                                                                          "enter user bio"),
+                                                            ),
+                                                          );
+                                                        }),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical:
+                                                              AppPadding.p28,
+                                                          horizontal:
+                                                              AppPadding.p28),
+                                                      child: Container(
+                                                        height:
+                                                            AppSize.s100 * 1.1,
+                                                        width: double.maxFinite,
+                                                        decoration: BoxDecoration(
+                                                            color: ColorManager
+                                                                .white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        40),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                  offset:
+                                                                      const Offset(
+                                                                          0, 0),
+                                                                  color: ColorManager
+                                                                      .lightPrimary
+                                                                      .withOpacity(
+                                                                          .1),
+                                                                  blurRadius:
+                                                                      10),
+                                                            ]),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .all(
+                                                                  AppPadding
+                                                                      .p20),
+                                                          child: Center(
+                                                            child:
+                                                                StreamBuilder(
+                                                              stream: _viewModel
+                                                                  .outputUserBio,
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                return (snapshot
+                                                                            .data) !=
+                                                                        ""
+                                                                    ? Text(
+                                                                        snapshot.data ??
+                                                                            "",
+                                                                        maxLines: 4,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        style: Theme.of(context)
+                                                                            .textTheme
+                                                                            .titleLarge,
+                                                                      )
+                                                                    : Text(
+                                                                        "Plz add your bio",
+                                                                        style: Theme.of(context)
+                                                                            .textTheme
+                                                                            .titleLarge,
+                                                                      );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
 
                                                   //////////////////////
                                                   const SizedBox(
