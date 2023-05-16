@@ -28,14 +28,15 @@ class PlayfairAlgorithm {
     }
 
     List<String> resultList = result.split("");
+    if (resultList.length % 2 == 0 && resultList.last == "z") {
+      resultList.removeLast();
+    }
     for (int i = 0; i < resultList.length - 2; i++) {
       if (resultList[i] == resultList[i + 2] && resultList[i + 1] == "x") {
         resultList.removeAt(i + 1);
       }
     }
-    if (resultList.length % 2 == 0 && resultList.last == "z") {
-      resultList.removeLast();
-    }
+
     result = resultList.join();
     return result;
   }
