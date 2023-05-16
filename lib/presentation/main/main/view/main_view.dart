@@ -11,8 +11,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../../app/di.dart';
-import '../../../resourses/assets_manager.dart';
+import 'package:flu_proj/app/di.dart';
+import 'package:flu_proj/presentation/resourses/assets_manager.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -104,556 +104,607 @@ class _MainViewState extends State<MainView> {
                       Radius.circular(AppSize.s40),
                     ),
                   ),
-                  height: AppSize.s100 * 3.5,
+                  height: AppSize.s100 * 4,
                   width: AppSize.s100 * 2.7,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Align(
-                        alignment: Alignment.topCenter,
-                        child: Image(
-                          image: AssetImage(ImageAssets.logo),
-                          height: AppSize.s100,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.person,
-                            color: ColorManager.primary,
-                            size: AppSize.s20,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Align(
+                          alignment: Alignment.topCenter,
+                          child: Image(
+                            image: AssetImage(ImageAssets.logo),
+                            height: AppSize.s100,
                           ),
-                          TextButton(
-                            autofocus: true,
-                            focusNode: FocusNode(),
-                            onPressed: () {
-                              dismissDialog(context);
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: AppPadding.p28,
-                                          vertical: AppPadding.p28 * 3),
-                                      child: Container(
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.person,
+                              color: ColorManager.primary,
+                              size: AppSize.s20,
+                            ),
+                            TextButton(
+                              autofocus: true,
+                              focusNode: FocusNode(),
+                              onPressed: () {
+                                dismissDialog(context);
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: AppPadding.p28),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 20,
-                                              offset: const Offset(-6, 6),
-                                              color: ColorManager.lightPrimary
-                                                  .withOpacity(.3),
+                                            horizontal: AppPadding.p28,
+                                            vertical: AppPadding.p28 * 3),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: AppPadding.p28),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: 20,
+                                                offset: const Offset(-6, 6),
+                                                color: ColorManager.lightPrimary
+                                                    .withOpacity(.3),
+                                              ),
+                                            ],
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(AppSize.s40),
                                             ),
-                                          ],
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(AppSize.s40),
                                           ),
-                                        ),
 
-                                        child: SingleChildScrollView(
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          child: Center(
-                                            child: SizedBox(
-                                              height: AppSize.s100 * 7.5,
-                                              width: double.maxFinite,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 2,
-                                                  ),
-                                                  Stack(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    children: [
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        60),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                  offset:
-                                                                      const Offset(
-                                                                          0, 0),
-                                                                  color: ColorManager
-                                                                      .lightPrimary
-                                                                      .withOpacity(
-                                                                          .1),
-                                                                  blurRadius:
-                                                                      10),
-                                                            ]),
-                                                        child: GestureDetector(
-                                                          onTap: () =>
-                                                              _showPicker(
-                                                                  context),
-                                                          child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              150),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                        offset: const Offset(
+                                          child: SingleChildScrollView(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            child: Center(
+                                              child: SizedBox(
+                                                height: AppSize.s100 * 7.5,
+                                                width: double.maxFinite,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const SizedBox(
+                                                      height: AppSize.s20 * 2,
+                                                    ),
+                                                    Stack(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      children: [
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          60),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    offset:
+                                                                        const Offset(
                                                                             0,
                                                                             0),
-                                                                        color: ColorManager
-                                                                            .lightPrimary
-                                                                            .withOpacity(
-                                                                                .3),
-                                                                        blurRadius:
-                                                                            10),
-                                                                  ]),
-                                                              child:
-                                                                  StreamBuilder(
-                                                                      stream: _viewModel
-                                                                          .outputUserImage,
-                                                                      builder:
-                                                                          (context,
-                                                                              snapshot) {
-                                                                        print(snapshot
-                                                                            .data);
-                                                                        return CircleAvatar(
-                                                                          radius:
-                                                                              AppSize.s40 * 2.5,
-                                                                          backgroundImage:
-                                                                              Image.network(snapshot.data ?? "https://www.snapon.co.za/images/thumbs/default-image_550.png").image,
-                                                                        );
-                                                                      })),
+                                                                    color: ColorManager
+                                                                        .lightPrimary
+                                                                        .withOpacity(
+                                                                            .1),
+                                                                    blurRadius:
+                                                                        10),
+                                                              ]),
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () =>
+                                                                _showPicker(
+                                                                    context),
+                                                            child: Container(
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            150),
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                          offset: const Offset(
+                                                                              0,
+                                                                              0),
+                                                                          color: ColorManager.lightPrimary.withOpacity(
+                                                                              .3),
+                                                                          blurRadius:
+                                                                              10),
+                                                                    ]),
+                                                                child:
+                                                                    StreamBuilder(
+                                                                        stream: _viewModel
+                                                                            .outputUserImage,
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          print(
+                                                                              snapshot.data);
+                                                                          return CircleAvatar(
+                                                                            radius:
+                                                                                AppSize.s40 * 2.5,
+                                                                            backgroundImage:
+                                                                                Image.network(snapshot.data ?? "https://www.snapon.co.za/images/thumbs/default-image_550.png").image,
+                                                                          );
+                                                                        })),
+                                                          ),
                                                         ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .all(
-                                                                AppPadding.p28 *
-                                                                    .5),
-                                                        child: Container(
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color:
-                                                                  ColorManager
-                                                                      .white,
-                                                            ),
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(3),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .edit_rounded,
-                                                              color: ColorManager
-                                                                  .lightPrimary,
-                                                              size:
-                                                                  AppSize.s20 *
-                                                                      1.3,
-                                                            )),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 3,
-                                                  ),
-                                                  //// userName
-                                                  GestureDetector(
-                                                    onTap: () => showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          final TextEditingController
-                                                              textFieldController =
-                                                              TextEditingController();
-
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Change your user name'),
-                                                            content: TextField(
-                                                              onChanged:
-                                                                  (value) {},
-                                                              onSubmitted: (username) =>
-                                                                  _viewModel.setUserName(
-                                                                      username,
-                                                                      context),
-                                                              controller:
-                                                                  textFieldController,
-                                                              decoration:
-                                                                  const InputDecoration(
-                                                                      hintText:
-                                                                          "enter user name"),
-                                                            ),
-                                                          );
-                                                        }),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Text(
-                                                          _viewModel
-                                                                  .userDataModel!
-                                                                  .name ??
-                                                              "",
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .labelSmall!
-                                                              .copyWith(
-                                                                  fontSize:
-                                                                      AppSize.s20 *
-                                                                          1.3),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: AppSize.s4,
-                                                        ),
-                                                        Icon(
-                                                          Icons.edit_rounded,
-                                                          color: ColorManager
-                                                              .lightPrimary,
-                                                          size:
-                                                              AppSize.s20 * .9,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                  GestureDetector(
-                                                    onTap: () => showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          final TextEditingController
-                                                              textFieldController =
-                                                              TextEditingController();
-
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                'Change your Bio'),
-                                                            content: TextField(
-                                                              onChanged:
-                                                                  (value) {},
-                                                              onSubmitted: (bio) =>
-                                                                  _viewModel
-                                                                      .setUserBio(
-                                                                          bio),
-                                                              controller:
-                                                                  textFieldController,
-                                                              decoration:
-                                                                  const InputDecoration(
-                                                                      hintText:
-                                                                          "enter user bio"),
-                                                            ),
-                                                          );
-                                                        }),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical:
-                                                              AppPadding.p28,
-                                                          horizontal:
-                                                              AppPadding.p28),
-                                                      child: Container(
-                                                        height:
-                                                            AppSize.s100 * 1.1,
-                                                        width: double.maxFinite,
-                                                        decoration: BoxDecoration(
-                                                            color: ColorManager
-                                                                .white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                  offset:
-                                                                      const Offset(
-                                                                          0, 0),
-                                                                  color: ColorManager
-                                                                      .lightPrimary
-                                                                      .withOpacity(
-                                                                          .1),
-                                                                  blurRadius:
-                                                                      10),
-                                                            ]),
-                                                        child: Padding(
+                                                        Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .all(
                                                                   AppPadding
-                                                                      .p20),
-                                                          child: Center(
-                                                            child:
-                                                                StreamBuilder(
-                                                              stream: _viewModel
-                                                                  .outputUserBio,
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                return (snapshot
-                                                                            .data) !=
-                                                                        ""
-                                                                    ? Text(
-                                                                        snapshot.data ??
-                                                                            "",
-                                                                        maxLines: 4,
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: Theme.of(context)
-                                                                            .textTheme
-                                                                            .titleLarge,
-                                                                      )
-                                                                    : Text(
-                                                                        "Plz add your bio",
-                                                                        style: Theme.of(context)
-                                                                            .textTheme
-                                                                            .titleLarge,
-                                                                      );
-                                                              },
+                                                                          .p28 *
+                                                                      .5),
+                                                          child: Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color:
+                                                                    ColorManager
+                                                                        .white,
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(3),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .edit_rounded,
+                                                                color: ColorManager
+                                                                    .lightPrimary,
+                                                                size: AppSize
+                                                                        .s20 *
+                                                                    1.3,
+                                                              )),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(
+                                                      height: AppSize.s20 * 3,
+                                                    ),
+                                                    //// userName
+                                                    GestureDetector(
+                                                      onTap: () => showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            final TextEditingController
+                                                                textFieldController =
+                                                                TextEditingController();
+
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                  'Change your user name'),
+                                                              content:
+                                                                  TextField(
+                                                                onChanged:
+                                                                    (value) {},
+                                                                onSubmitted: (username) =>
+                                                                    _viewModel.setUserName(
+                                                                        username,
+                                                                        context),
+                                                                controller:
+                                                                    textFieldController,
+                                                                decoration:
+                                                                    const InputDecoration(
+                                                                        hintText:
+                                                                            "enter user name"),
+                                                              ),
+                                                            );
+                                                          }),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Text(
+                                                            _viewModel
+                                                                    .userDataModel!
+                                                                    .name ??
+                                                                "",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .labelSmall!
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        AppSize.s20 *
+                                                                            1.3),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: AppSize.s4,
+                                                          ),
+                                                          Icon(
+                                                            Icons.edit_rounded,
+                                                            color: ColorManager
+                                                                .lightPrimary,
+                                                            size: AppSize.s20 *
+                                                                .9,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                    GestureDetector(
+                                                      onTap: () => showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            final TextEditingController
+                                                                textFieldController =
+                                                                TextEditingController();
+
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                  'Change your Bio'),
+                                                              content:
+                                                                  TextField(
+                                                                onChanged:
+                                                                    (value) {},
+                                                                onSubmitted: (bio) =>
+                                                                    _viewModel
+                                                                        .setUserBio(
+                                                                            bio),
+                                                                controller:
+                                                                    textFieldController,
+                                                                decoration:
+                                                                    const InputDecoration(
+                                                                        hintText:
+                                                                            "enter user bio"),
+                                                              ),
+                                                            );
+                                                          }),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical:
+                                                                    AppPadding
+                                                                        .p28,
+                                                                horizontal:
+                                                                    AppPadding
+                                                                        .p28),
+                                                        child: Container(
+                                                          height: AppSize.s100 *
+                                                              1.1,
+                                                          width:
+                                                              double.maxFinite,
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  ColorManager
+                                                                      .white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          40),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    offset:
+                                                                        const Offset(
+                                                                            0,
+                                                                            0),
+                                                                    color: ColorManager
+                                                                        .lightPrimary
+                                                                        .withOpacity(
+                                                                            .1),
+                                                                    blurRadius:
+                                                                        10),
+                                                              ]),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .all(
+                                                                    AppPadding
+                                                                        .p20),
+                                                            child: Center(
+                                                              child:
+                                                                  StreamBuilder(
+                                                                stream: _viewModel
+                                                                    .outputUserBio,
+                                                                builder: (context,
+                                                                    snapshot) {
+                                                                  return (snapshot
+                                                                              .data) !=
+                                                                          ""
+                                                                      ? Text(
+                                                                          snapshot.data ??
+                                                                              "",
+                                                                          maxLines:
+                                                                              4,
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          style: Theme.of(context)
+                                                                              .textTheme
+                                                                              .titleLarge,
+                                                                        )
+                                                                      : Text(
+                                                                          "Plz add your bio",
+                                                                          style: Theme.of(context)
+                                                                              .textTheme
+                                                                              .titleLarge,
+                                                                        );
+                                                                },
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
 
-                                                  //////////////////////
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 2,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 2,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-
-                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                      ),
-                                    );
-                                  });
-                            },
-                            clipBehavior: Clip.none,
-                            style: TextButton.styleFrom(
-                                primary: ColorManager.lightPrimary),
-                            child: Text(
-                              _viewModel.userDataModel!.name ?? "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontSize: AppSize.s18 * .9),
-                            ).tr(),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.language_outlined,
-                            color: ColorManager.primary,
-                            size: AppSize.s20,
-                          ),
-                          TextButton(
-                            autofocus: true,
-                            focusNode: FocusNode(),
-                            onPressed: () => _viewModel.changeLanguage(context),
-                            clipBehavior: Clip.none,
-                            style: TextButton.styleFrom(
-                                primary: ColorManager.lightPrimary),
-                            child: Text(
-                              AppStrings.changeLanguage,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontSize: AppSize.s18 * .9),
-                            ).tr(),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.contact_support_outlined,
-                            color: ColorManager.primary,
-                            size: AppSize.s20,
-                          ),
-                          TextButton(
-                            autofocus: true,
-                            focusNode: FocusNode(),
-                            onPressed: () {
-                              dismissDialog(context);
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: AppPadding.p28,
-                                          vertical: AppPadding.p28 * 3),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: AppPadding.p28),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 20,
-                                              offset: const Offset(-6, 6),
-                                              color: ColorManager.lightPrimary
-                                                  .withOpacity(.3),
-                                            ),
-                                          ],
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(AppSize.s40),
-                                          ),
-                                        ),
-
-                                        child: SingleChildScrollView(
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          child: Center(
-                                            child: SizedBox(
-                                              height: AppSize.s100 * 7.5,
-                                              width: double.maxFinite,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 2,
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(60),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  const Offset(
-                                                                      0, 0),
-                                                              color: ColorManager
-                                                                  .lightPrimary
-                                                                  .withOpacity(
-                                                                      .1),
-                                                              blurRadius: 10),
-                                                        ]),
-                                                    child: const CircleAvatar(
-                                                      radius: AppSize.s40 * 1.8,
-                                                      backgroundImage:
-                                                          AssetImage(ImageAssets
-                                                              .developer),
+                                                    //////////////////////
+                                                    const SizedBox(
+                                                      height: AppSize.s20 * 2,
                                                     ),
-                                                  ),
-                                                  const SocialWidet(
-                                                      text: 'abdoo_swidan',
-                                                      link:
-                                                          'https://www.instagram.com/abdoo_swidan/',
-                                                      icon: FontAwesomeIcons
-                                                          .instagram,
-                                                      color: Colors.pink),
-                                                  const SocialWidet(
-                                                      text:
-                                                          'Abdel_Rahman Swidan ',
-                                                      link:
-                                                          'https://github.com/EngAbdoS',
-                                                      icon: FontAwesomeIcons
-                                                          .github,
-                                                      color: Colors.black),
-                                                  const SocialWidet(
-                                                      text:
-                                                          'sωiɒαи⁦( ͝° ͜ʖ͡°)ᕤ⁩',
-                                                      link:
-                                                          'https://twitter.com/abd0_swidan',
-                                                      icon: FontAwesomeIcons
-                                                          .twitter,
-                                                      color: Colors.lightBlue),
-                                                  const SocialWidet(
-                                                      text:
-                                                          'Abdelrahman Swidan',
-                                                      link:
-                                                          'https://www.linkedin.com/in/abdelrahman-swidan-57bb84235/',
-                                                      icon: FontAwesomeIcons
-                                                          .linkedin,
-                                                      color: Colors.blue),
-                                                  const SocialWidet(
-                                                      text: ' swidan#6553',
-                                                      link: '',
-                                                      icon: FontAwesomeIcons
-                                                          .discord,
-                                                      color: Colors.green),
-                                                  const SocialWidet(
-                                                      text:
-                                                          'Abdelrahman Swidan',
-                                                      link:
-                                                          'https://www.facebook.com/profile.php?id=100011068351633',
-                                                      icon: FontAwesomeIcons
-                                                          .facebook,
-                                                      color: Colors.blueAccent),
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 2,
-                                                  ),
-                                                  const SizedBox(
-                                                    height: AppSize.s20 * 2,
-                                                  ),
-                                                ],
+                                                    const SizedBox(
+                                                      height: AppSize.s20 * 2,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
 
-                                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                      ),
-                                    );
-                                  });
-                            },
-                            clipBehavior: Clip.none,
-                            style: TextButton.styleFrom(
-                                primary: ColorManager.lightPrimary),
-                            child: Text(
-                              AppStrings.aboutDeveloper,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(
-                                    fontSize: AppSize.s18 * .9,
-                                  ),
-                            ).tr(),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.logout,
-                            color: ColorManager.primary,
-                            size: AppSize.s20,
-                          ),
-                          TextButton(
-                            autofocus: true,
-                            focusNode: FocusNode(),
-                            onPressed: () => _viewModel.logout(context),
-                            clipBehavior: Clip.none,
-                            style: TextButton.styleFrom(
-                                primary: ColorManager.lightPrimary),
-                            child: Text(
-                              AppStrings.logout,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(fontSize: AppSize.s18 * .9),
-                            ).tr(),
-                          ),
-                        ],
-                      ),
-                    ],
+                                          ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        ),
+                                      );
+                                    });
+                              },
+                              clipBehavior: Clip.none,
+                              style: TextButton.styleFrom(
+                                  primary: ColorManager.lightPrimary),
+                              child: Text(
+                                _viewModel.userDataModel!.name ?? "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(fontSize: AppSize.s18 * .9),
+                              ).tr(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.history_edu_outlined,
+                              color: ColorManager.primary,
+                              size: AppSize.s20,
+                            ),
+                            TextButton(
+                              autofocus: true,
+                              focusNode: FocusNode(),
+                              onPressed: () {
+                                dismissDialog(context);
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return _historyScreen();
+                                    });
+                              },
+                              clipBehavior: Clip.none,
+                              style: TextButton.styleFrom(
+                                  primary: ColorManager.lightPrimary),
+                              child: Text(
+                                "History",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(fontSize: AppSize.s18 * .9),
+                              ).tr(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.language_outlined,
+                              color: ColorManager.primary,
+                              size: AppSize.s20,
+                            ),
+                            TextButton(
+                              autofocus: true,
+                              focusNode: FocusNode(),
+                              onPressed: () =>
+                                  _viewModel.changeLanguage(context),
+                              clipBehavior: Clip.none,
+                              style: TextButton.styleFrom(
+                                  primary: ColorManager.lightPrimary),
+                              child: Text(
+                                AppStrings.changeLanguage,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(fontSize: AppSize.s18 * .9),
+                              ).tr(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.contact_support_outlined,
+                              color: ColorManager.primary,
+                              size: AppSize.s20,
+                            ),
+                            TextButton(
+                              autofocus: true,
+                              focusNode: FocusNode(),
+                              onPressed: () {
+                                dismissDialog(context);
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: AppPadding.p28,
+                                            vertical: AppPadding.p28 * 3),
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: AppPadding.p28),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                blurRadius: 20,
+                                                offset: const Offset(-6, 6),
+                                                color: ColorManager.lightPrimary
+                                                    .withOpacity(.3),
+                                              ),
+                                            ],
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(AppSize.s40),
+                                            ),
+                                          ),
+
+                                          child: SingleChildScrollView(
+                                            physics:
+                                                const BouncingScrollPhysics(),
+                                            child: Center(
+                                              child: SizedBox(
+                                                height: AppSize.s100 * 7.5,
+                                                width: double.maxFinite,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const SizedBox(
+                                                      height: AppSize.s20 * 2,
+                                                    ),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(60),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 0),
+                                                                color: ColorManager
+                                                                    .lightPrimary
+                                                                    .withOpacity(
+                                                                        .1),
+                                                                blurRadius: 10),
+                                                          ]),
+                                                      child: const CircleAvatar(
+                                                        radius:
+                                                            AppSize.s40 * 1.8,
+                                                        backgroundImage:
+                                                            AssetImage(
+                                                                ImageAssets
+                                                                    .developer),
+                                                      ),
+                                                    ),
+                                                    const SocialWidet(
+                                                        text: 'abdoo_swidan',
+                                                        link:
+                                                            'https://www.instagram.com/abdoo_swidan/',
+                                                        icon: FontAwesomeIcons
+                                                            .instagram,
+                                                        color: Colors.pink),
+                                                    const SocialWidet(
+                                                        text:
+                                                            'Abdel_Rahman Swidan ',
+                                                        link:
+                                                            'https://github.com/EngAbdoS',
+                                                        icon: FontAwesomeIcons
+                                                            .github,
+                                                        color: Colors.black),
+                                                    const SocialWidet(
+                                                        text:
+                                                            'sωiɒαи⁦( ͝° ͜ʖ͡°)ᕤ⁩',
+                                                        link:
+                                                            'https://twitter.com/abd0_swidan',
+                                                        icon: FontAwesomeIcons
+                                                            .twitter,
+                                                        color:
+                                                            Colors.lightBlue),
+                                                    const SocialWidet(
+                                                        text:
+                                                            'Abdelrahman Swidan',
+                                                        link:
+                                                            'https://www.linkedin.com/in/abdelrahman-swidan-57bb84235/',
+                                                        icon: FontAwesomeIcons
+                                                            .linkedin,
+                                                        color: Colors.blue),
+                                                    const SocialWidet(
+                                                        text: ' swidan#6553',
+                                                        link: '',
+                                                        icon: FontAwesomeIcons
+                                                            .discord,
+                                                        color: Colors.green),
+                                                    const SocialWidet(
+                                                        text:
+                                                            'Abdelrahman Swidan',
+                                                        link:
+                                                            'https://www.facebook.com/profile.php?id=100011068351633',
+                                                        icon: FontAwesomeIcons
+                                                            .facebook,
+                                                        color:
+                                                            Colors.blueAccent),
+                                                    const SizedBox(
+                                                      height: AppSize.s20 * 2,
+                                                    ),
+                                                    const SizedBox(
+                                                      height: AppSize.s20 * 2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+                                          ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                        ),
+                                      );
+                                    });
+                              },
+                              clipBehavior: Clip.none,
+                              style: TextButton.styleFrom(
+                                  primary: ColorManager.lightPrimary),
+                              child: Text(
+                                AppStrings.aboutDeveloper,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      fontSize: AppSize.s18 * .9,
+                                    ),
+                              ).tr(),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              color: ColorManager.primary,
+                              size: AppSize.s20,
+                            ),
+                            TextButton(
+                              autofocus: true,
+                              focusNode: FocusNode(),
+                              onPressed: () => _viewModel.logout(context),
+                              clipBehavior: Clip.none,
+                              style: TextButton.styleFrom(
+                                  primary: ColorManager.lightPrimary),
+                              child: Text(
+                                AppStrings.logout,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(fontSize: AppSize.s18 * .9),
+                              ).tr(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -1154,6 +1205,155 @@ class _MainViewState extends State<MainView> {
   _imageFromCamera() async {
     var image = await _imagePicker.pickImage(source: ImageSource.camera);
     _viewModel.setProfilePicture(File(image?.path ?? ""), context);
+  }
+
+  Widget _historyScreen() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: AppPadding.p28, vertical: AppPadding.p28 * 3),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: AppPadding.p28),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 20,
+                offset: const Offset(-6, 6),
+                color: ColorManager.lightPrimary.withOpacity(.3),
+              ),
+            ],
+            borderRadius: const BorderRadius.all(
+              Radius.circular(AppSize.s40),
+            ),
+          ),
+          child: SingleChildScrollView(
+              // padding: EdgeInsets.all(AppPadding.p20),
+              physics: const BouncingScrollPhysics(),
+              child: StreamBuilder(
+                stream: _viewModel.outputHistory,
+                builder: (context, snapshot) {
+                  print(snapshot.data);
+                  //return Container();
+
+                  return snapshot.data != null
+                      ? ListView.builder(
+                          reverse: true,
+                          itemBuilder: (context, index) {
+                            return _historyItem(
+                                snapshot.data![0][index],
+                                snapshot.data![1][index],
+                                snapshot.data![2][index],
+                                index);
+                          },
+                          itemCount: snapshot.data![0].length ?? 0,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                        )
+                      : Container();
+                },
+              )),
+        ));
+  }
+
+  Widget _historyItem(String encoded, String decoded, String key, int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: AppPadding.p20 * .6, vertical: AppPadding.p8),
+      child: Container(
+        width: double.maxFinite,
+        //height: AppSize.s100,
+        padding: const EdgeInsets.all(AppPadding.p14),
+        decoration: BoxDecoration(
+          color: ColorManager.white,
+          // color: Colors.purple,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 10,
+              offset: const Offset(-6, 6),
+              color: ColorManager.lightPrimary.withOpacity(.15),
+            ),
+          ],
+          borderRadius: const BorderRadius.all(
+            Radius.circular(AppSize.s20 * 1.3),
+          ),
+        ),
+        child: Row(mainAxisSize: MainAxisSize.max,mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex: 10,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(AppPadding.p12),
+                    decoration: BoxDecoration(
+                      color: ColorManager.lightPrimary.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
+                    child: SelectableText(
+                      encoded,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(AppPadding.p12),
+                    decoration: BoxDecoration(
+                      color: ColorManager.lightPrimary.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
+                    child: SelectableText(
+                      decoded,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(AppPadding.p12),
+                    decoration: BoxDecoration(
+                      color: ColorManager.lightPrimary.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
+                    child: SelectableText(
+                      key,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            Flexible(
+              flex: 4,
+              child: TextButton(
+                autofocus: true,
+                focusNode: FocusNode(),
+                onPressed: () {
+                  _viewModel.removeFromHistory(index);
+                },
+                clipBehavior: Clip.none,
+                style: TextButton.styleFrom(primary: ColorManager.lightPrimary),
+                child: Text(
+                  "Remove",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontSize: AppSize.s18 * .9),
+                ).tr(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override

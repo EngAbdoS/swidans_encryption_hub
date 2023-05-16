@@ -15,12 +15,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../../../../app/app_prefs.dart';
-import '../../../../app/di.dart';
-import '../../../../data/data_source/local_data_source.dart';
-import '../../../../domain/models/models.dart';
-import '../../../resourses/router_manager.dart';
+import 'package:flu_proj/app/app_prefs.dart';
+import 'package:flu_proj/app/di.dart';
+import 'package:flu_proj/data/data_source/local_data_source.dart';
+import 'package:flu_proj/domain/models/models.dart';
+import 'package:flu_proj/presentation/resourses/router_manager.dart';
 
 class MainViewModel extends BaseViewModel
     with MainViewModelInputs, MainViewModelOutputs {
@@ -45,6 +44,8 @@ class MainViewModel extends BaseViewModel
   final StreamController _profilePicStreamController =
       BehaviorSubject<String>();
   final StreamController _BioController = BehaviorSubject<String>();
+  final StreamController _historyController =
+      BehaviorSubject<List<List<String>>>();
 
   final CaesarAlgorithm _caesarAlgorithm = CaesarAlgorithm();
   final PlayfairAlgorithm _playfairAlgorithm = PlayfairAlgorithm();
@@ -55,9 +56,13 @@ class MainViewModel extends BaseViewModel
   final DESAlgorithm _desAlgorithm = DESAlgorithm();
   String userMessage = "";
   String userKey = "";
+  String result = "";
   int index = 0;
   bool willUserEnterKey = false;
   File? profilePic;
+  String generatedKey = "";
+  List<List<String>> history = [];
+
   List<String> algorithms = [
     "Monoaphpetic",
     "Caesar",
@@ -72,6 +77,7 @@ class MainViewModel extends BaseViewModel
   void start() {
     //inputState.add(ContentState());
     _getUserData();
+    getHistory();
   }
 
   @override
@@ -167,12 +173,13 @@ class MainViewModel extends BaseViewModel
   }
 
   @override
-  getEncode() {
+  getEncode() async {
     switch (index) {
       case 0:
         {
-          inputEncryptionResult.add(_monoalphabeticAlgorithm.encode(
-              userMessage, willUserEnterKey, userKey));
+          result = _monoalphabeticAlgorithm.encode(
+              userMessage, willUserEnterKey, userKey);
+          inputEncryptionResult.add(result);
           //add generated key to view stream
           !willUserEnterKey
               ? setGeneratedKey(_monoalphabeticAlgorithm.userGeneratedKey)
@@ -181,8 +188,9 @@ class MainViewModel extends BaseViewModel
         }
       case 1:
         {
-          inputEncryptionResult.add(
-              _caesarAlgorithm.encode(userMessage, willUserEnterKey, userKey));
+          result =
+              _caesarAlgorithm.encode(userMessage, willUserEnterKey, userKey);
+          inputEncryptionResult.add(result);
           //add generated key to view stream
           !willUserEnterKey
               ? setGeneratedKey(_caesarAlgorithm.userGeneratedKey.toString())
@@ -191,29 +199,30 @@ class MainViewModel extends BaseViewModel
         }
       case 2: /////////////////////////////////////////////////////////////
         {
-          inputEncryptionResult
-              .add(_playfairAlgorithm.encode(userMessage, userKey));
+          result = _playfairAlgorithm.encode(userMessage, userKey);
+          inputEncryptionResult.add(result);
 
           break;
         }
       case 3:
         {
-          inputEncryptionResult
-              .add(_polyalphabeticAlgorithm.encode(userMessage, userKey));
+          result = _polyalphabeticAlgorithm.encode(userMessage, userKey);
+          inputEncryptionResult.add(result);
 
           break;
         }
       case 4:
         {
-          inputEncryptionResult
-              .add(_autoKeyAlgorithm.encode(userMessage, userKey));
+          result = _autoKeyAlgorithm.encode(userMessage, userKey);
+          inputEncryptionResult.add(result);
 
           break;
         }
       case 5:
         {
-          inputEncryptionResult.add(_realFenceAlgorithm.encode(
-              userMessage, willUserEnterKey, userKey));
+          result = _realFenceAlgorithm.encode(
+              userMessage, willUserEnterKey, userKey);
+          inputEncryptionResult.add(result);
           //add generated key to view stream
           !willUserEnterKey
               ? setGeneratedKey(_realFenceAlgorithm.userGeneratedKey.toString())
@@ -222,10 +231,12 @@ class MainViewModel extends BaseViewModel
         }
       case 6:
         {
-          inputEncryptionResult.add(_desAlgorithm.encode(userMessage, userKey));
+          result = _desAlgorithm.encode(userMessage, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
     }
+    _appPreferences.addToHistory(userMessage, result, generatedKey);
   }
 
   @override
@@ -233,46 +244,50 @@ class MainViewModel extends BaseViewModel
     switch (index) {
       case 0:
         {
-          inputEncryptionResult.add(_monoalphabeticAlgorithm.decode(
-              userMessage, willUserEnterKey, userKey));
+          result = _monoalphabeticAlgorithm.decode(
+              userMessage, willUserEnterKey, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
       case 1:
         {
-          inputEncryptionResult.add(
-              _caesarAlgorithm.decode(userMessage, willUserEnterKey, userKey));
+          result =
+              _caesarAlgorithm.decode(userMessage, willUserEnterKey, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
       case 2:
         {
-          inputEncryptionResult
-              .add(_playfairAlgorithm.decode(userMessage, userKey));
+          result = _playfairAlgorithm.decode(userMessage, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
       case 3:
         {
-          inputEncryptionResult
-              .add(_polyalphabeticAlgorithm.decode(userMessage, userKey));
+          result = _polyalphabeticAlgorithm.decode(userMessage, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
       case 4:
         {
-          inputEncryptionResult
-              .add(_autoKeyAlgorithm.decode(userMessage, userKey));
+          result = _autoKeyAlgorithm.decode(userMessage, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
       case 5:
         {
-          inputEncryptionResult
-              .add(_realFenceAlgorithm.decode(userMessage, userKey));
+          result = _realFenceAlgorithm.decode(userMessage, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
       case 6:
         {
-          inputEncryptionResult.add(_desAlgorithm.decode(userMessage, userKey));
+          result = _desAlgorithm.decode(userMessage, userKey);
+          inputEncryptionResult.add(result);
           break;
         }
     }
+    _appPreferences.addToHistory(result, userMessage, userKey);
   }
 
   @override
@@ -320,6 +335,7 @@ class MainViewModel extends BaseViewModel
   @override
   setGeneratedKey(String key) {
     inputGeneratedKey.add(key);
+    generatedKey = key;
     _areAllInputValid();
   }
 
@@ -400,6 +416,25 @@ class MainViewModel extends BaseViewModel
 
   @override
   Stream<String> get outputUserBio => _BioController.stream.map((bio) => bio);
+
+  @override
+  Sink get inputHistory => _historyController.sink;
+
+  @override
+  Stream<List<List<String>>> get outputHistory =>
+      _historyController.stream.map((history) => history);
+
+  @override
+  getHistory() async {
+    history = await _appPreferences.getHistory();
+    print(history);
+    inputHistory.add(history);
+  }
+
+  removeFromHistory(int index) {
+    _appPreferences.removeFromHistory(index);
+    getHistory();
+  }
 }
 
 abstract class MainViewModelInputs {
@@ -421,6 +456,8 @@ abstract class MainViewModelInputs {
 
   Sink get inputUserBio;
 
+  Sink get inputHistory;
+
   setMessage(String message);
 
   setAlgorithm(int index);
@@ -434,6 +471,8 @@ abstract class MainViewModelInputs {
   setKeyState(bool userKeyState);
 
   getDecode();
+
+  getHistory();
 }
 
 abstract class MainViewModelOutputs {
@@ -454,4 +493,6 @@ abstract class MainViewModelOutputs {
   Stream<String> get outputUserImage;
 
   Stream<String> get outputUserBio;
+
+  Stream<List<List<String>>> get outputHistory;
 }
