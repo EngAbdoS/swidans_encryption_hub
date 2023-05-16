@@ -22,7 +22,7 @@
        </intent>
    </queries>
     <application
-        android:label="swidan_encryption_hub"
+        android:label="Swidan's Encryption Hub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
