@@ -4,7 +4,7 @@ class AutoKeyAlgorithm {
   }
 
   String encode(String message, String userKey) {
-    message = message.toUpperCase().replaceAll(" ", " ");
+    message = message.toUpperCase().replaceAll(" ", "");
     userKey = userKey.toUpperCase();
 
     String key = userKey + message;

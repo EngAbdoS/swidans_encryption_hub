@@ -236,7 +236,7 @@ class MainViewModel extends BaseViewModel
           break;
         }
     }
-    _appPreferences.addToHistory(userMessage, result, generatedKey);
+    _appPreferences.addToHistory(userMessage, result,willUserEnterKey?userKey: generatedKey);
   }
 
   @override

@@ -11,11 +11,11 @@ const HISTORY_KEY = "HISTORY_KEY";
 
 class AppPreferences {
   final SharedPreferences _sharedPreferences;
- //final List<String>encode=[];
- //final List<String>decode=[];
- //final List<String>key=[];
+ final List<String>encode=[];
+ final List<String>decode=[];
+ final List<String>key=[];
 
-  late List<List<String>> _history=[];
+  late List<List<String>> _history=[encode,decode,key];
 
   AppPreferences(this._sharedPreferences);
 
@@ -89,7 +89,7 @@ class AppPreferences {
   }
 
   Future<List<List<String>>> getHistory() async {
-   // _history = [];
+   //_history = [];
     if (_sharedPreferences.containsKey(HISTORY_EN) &&
         _sharedPreferences.containsKey(HISTORY_DE) &&
         _sharedPreferences.containsKey(HISTORY_KEY)) {
@@ -98,10 +98,15 @@ class AppPreferences {
       List<String>? decoded =
           await _sharedPreferences.getStringList(HISTORY_DE);
       List<String>? key = await _sharedPreferences.getStringList(HISTORY_KEY);
+      print(encoded);
+     // _history = [];
       _history.add(encoded ?? []);
       _history.add(decoded ?? []);
       _history.add(key ?? []);
+
     }
+    print("in pref");
+    print( _sharedPreferences.getStringList(HISTORY_EN));
     return _history;
   }
 

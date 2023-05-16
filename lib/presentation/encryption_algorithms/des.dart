@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 // import 'dart:typed_data';
 // import 'package:encrypt/encrypt.dart';
 // import 'package:convert/convert.dart';
@@ -6,13 +7,9 @@ import 'package:dart_des/dart_des.dart';
 
 class DESAlgorithm {
 
-
-  bool keyValidation(String userKey)
-  {
-    return userKey.length==8;
-
+  bool keyValidation(String userKey) {
+    return userKey.length == 8;
   }
-
 
 
   String encode(String message, String userKey) {
@@ -31,6 +28,7 @@ class DESAlgorithm {
 
     return utf8.decode(decrypted);
   }
+
   List<int> iv = [1, 2, 3, 4, 5, 6, 7, 8];
 
 //
