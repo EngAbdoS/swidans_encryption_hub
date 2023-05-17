@@ -51,6 +51,7 @@
 <p>Swidan's Encryption Hub provides information about the developer, including their name, email, and GitHub profile.</p>
 <h2>Conclusion</h2>
 <p>Swidan's Encryption Hub is a mobile application that provides 7 encryption algorithms for decoding and encoding text. The app is developed by Abdelrahman Swidan, a software engineer and computer science student at Suez Canal University, as a practical discussion of cyber security subject in faculty of computer informatics Suez Canal University. The app has a full authentication system, user profile, encryption history, and little animations. It is connected to Firebase and provides full and custom validation for inputs.</p>
+<hr>
 <p>The encryption algorithms provided by the app include DES, monoalphapitc, Caesar, Playfair, Polyalphabetic, Autokey, and Realfence. Each algorithm has its own encryption and decryption functionalities with full and custom validation for inputs. The app also provides a feature to change the language to Arabic, making it accessible to a wider audience.</p>
 <p>Swidan's Encryption Hub is built using Flutter and Dart, which are powerful tools for building cross-platform apps. The app is connected to Firebase, which provides a secure and scalable backend for the app. Firebase also provides features such as authentication, database, and storage, which are used in the app.</p>
 <p>Overall, Swidan's Encryption Hub is a useful app for anyone who needs to encrypt or decrypt text. The app provides a variety of encryption algorithms with full and custom validation for inputs, making it a secure choice for encryption. The app is also well-designed and easy to use, with features such as authentication, user profile, encryption history, and little animations that add to the user experience.</p>
@@ -67,21 +68,3 @@ flutter run
 
 <p>This project is licensed under the MIT License - see LICENSE.md for details.
 </p>
-
-<p align="center">    
-      /\  .-"""-.  /\     
-    //\\/  ,,,  \//\\    
-    |/\| ,;;;;;, |/\|    
-    //\\\;-"""-;///\\    
-   //  \/   .   \/  \\   
-  (| ,-_| \ | / |_-, |)  
-    //`__\.-.-./__`\\    
-   // /.-(() ())-.\ \\   
-  (\ |)   '---'   (| /)  
-   ` (|           |) `   
-     \)  "SWIDAN" (/   
-    
-    </p>
-
-
-
