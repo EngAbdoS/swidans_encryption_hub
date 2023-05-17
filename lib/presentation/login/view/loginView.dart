@@ -103,8 +103,8 @@ class _LoginViewState extends State<LoginView> {
                       keyboardType: TextInputType.emailAddress,
                       controller: _userNameController,
                       decoration: InputDecoration(
-                        hintText: AppStrings.username.tr(),
-                        labelText: AppStrings.username.tr(),
+                        hintText: AppStrings.emailHint.tr(),
+                        labelText: AppStrings.emailHint.tr(),
                         errorText: (snapshot.data ?? true)
                             ? null
                             : AppStrings.usernameError.tr(),
