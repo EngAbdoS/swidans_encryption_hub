@@ -15,6 +15,18 @@
 
 
 </ul>
+ <h2>Screens</h2>
+
+
+
+https://github.com/EngAbdoS/swidans_encryption_hub/assets/86132875/dfd97fcb-12c4-455d-9f1f-b4568beb2af5
+
+
+
+https://github.com/EngAbdoS/swidans_encryption_hub/assets/86132875/b705e948-2aff-4ffb-98e4-0460b8f56777
+
+
+
 <h2>Encryption Algorithms</h2>
 <h3>DES</h3>
 <p>The Data Encryption Standard (DES) is a symmetric-key block cipher that uses a 56-bit key. It operates on 64-bit blocks of data and is widely used for encryption of electronic data. Swidan's Encryption Hub provides DES encryption and decryption functionalities with full and custom validation for inputs.</p>
