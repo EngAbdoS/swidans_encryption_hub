@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,7 +12,6 @@ import 'package:flu_proj/presentation/encryption_algorithms/monoAlphapitec.dart'
 import 'package:flu_proj/presentation/encryption_algorithms/playfair.dart';
 import 'package:flu_proj/presentation/encryption_algorithms/polyalphabetic.dart';
 import 'package:flu_proj/presentation/encryption_algorithms/realfence.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:rxdart/rxdart.dart';
@@ -23,10 +23,13 @@ import 'package:flu_proj/presentation/resourses/router_manager.dart';
 
 class MainViewModel extends BaseViewModel
     with MainViewModelInputs, MainViewModelOutputs {
+  //---------------------------instances--------------------------------------//
+
   final LocalDataSource _localDataSource = instance<LocalDataSource>();
   final AppPreferences _appPreferences = instance<AppPreferences>();
-
   UserDataModel? userDataModel;
+
+  //-----------------------------Controllers----------------------------------//
 
   final StreamController _messageStreamController = BehaviorSubject<String>();
   final StreamController _algorithmStreamController = BehaviorSubject<String>();
@@ -39,14 +42,16 @@ class MainViewModel extends BaseViewModel
       BehaviorSubject<String?>();
   final StreamController _areAllInputValidStreamController =
       BehaviorSubject<void>();
-  final MonoalphabeticAlgorithm _monoalphabeticAlgorithm =
-      MonoalphabeticAlgorithm();
   final StreamController _profilePicStreamController =
       BehaviorSubject<String>();
   final StreamController _BioController = BehaviorSubject<String>();
   final StreamController _historyController =
       BehaviorSubject<List<List<String>>>();
 
+  //--------------------------Algorithms instances----------------------------//
+
+  final MonoalphabeticAlgorithm _monoalphabeticAlgorithm =
+      MonoalphabeticAlgorithm();
   final CaesarAlgorithm _caesarAlgorithm = CaesarAlgorithm();
   final PlayfairAlgorithm _playfairAlgorithm = PlayfairAlgorithm();
   final PolyalphabeticAlgorithm _polyalphabeticAlgorithm =
@@ -54,6 +59,9 @@ class MainViewModel extends BaseViewModel
   final AutoKeyAlgorithm _autoKeyAlgorithm = AutoKeyAlgorithm();
   final RealFenceAlgorithm _realFenceAlgorithm = RealFenceAlgorithm();
   final DESAlgorithm _desAlgorithm = DESAlgorithm();
+
+  //------------------------------variables-----------------------------------//
+
   String userMessage = "";
   String userKey = "";
   String result = "";
@@ -62,6 +70,8 @@ class MainViewModel extends BaseViewModel
   File? profilePic;
   String generatedKey = "";
   List<List<String>> history = [];
+
+  //-------------------------------Algorithms list----------------------------//
 
   List<String> algorithms = [
     "Monoaphpetic",
@@ -72,6 +82,8 @@ class MainViewModel extends BaseViewModel
     "Realfence",
     "DES",
   ];
+
+//****************************************************************************//
 
   @override
   void start() {
@@ -90,19 +102,17 @@ class MainViewModel extends BaseViewModel
     _generatedKeyStreamController.close();
     _userKeyStateStreamController.close();
     _encryptionResultStreamController.close();
+    _profilePicStreamController.close();
+    _BioController.close();
+    _historyController.close();
   }
+
+  //**************************************************************************//
+
+  //--------------------------------input-------------------------------------//
 
   @override
   Sink get areAllInputsValid => _areAllInputValidStreamController.sink;
-
-  @override
-  Stream<bool> get outputAreAllInputsValid =>
-      _areAllInputValidStreamController.stream.map((validation) => validation);
-
-  _areAllInputValid() {
-    areAllInputsValid
-        .add((_userKeyValidation(userKey) && _messageValidation(userMessage)));
-  }
 
   @override
   Sink get inputAlgorithm => _algorithmStreamController.sink;
@@ -111,8 +121,73 @@ class MainViewModel extends BaseViewModel
   Sink get inputMessage => _messageStreamController.sink;
 
   @override
+  Sink get inputUserKey => _userKeyStreamController.sink;
+
+  @override
+  Sink get inputUserKeyState => _userKeyStateStreamController.sink;
+
+  @override
+  Sink get inputEncryptionResult => _encryptionResultStreamController.sink;
+
+  @override
+  Sink get inputGeneratedKey => _generatedKeyStreamController.sink;
+
+  @override
+  Sink get inputUserImage => _profilePicStreamController.sink;
+
+  @override
+  Sink get inputUserBio => _BioController.sink;
+
+  @override
+  Sink get inputHistory => _historyController.sink;
+
+  //-----------------------------output---------------------------------------//
+
+  @override
+  Stream<bool> get outputAreAllInputsValid =>
+      _areAllInputValidStreamController.stream.map((validation) => validation);
+
+  @override
   Stream<String> get outputAlgorithm =>
       _algorithmStreamController.stream.map((algorithm) => algorithm);
+
+  @override
+  Stream<bool> get outputIsMessageValid => _messageStreamController.stream
+      .map((message) => _messageValidation(message));
+
+  @override
+  Stream<bool> get outputIsUserKeyValid => _userKeyStreamController.stream
+      .map((userKey) => _userKeyValidation(userKey));
+
+  @override
+  Stream<bool> get outputUserKeyState =>
+      _userKeyStateStreamController.stream.map((key) => key);
+
+  @override
+  Stream<String?> get outputEncryptionResult =>
+      _encryptionResultStreamController.stream.map((result) => result);
+
+  @override
+  Stream<String?> get outputGeneratedKey =>
+      _generatedKeyStreamController.stream.map((key) => key);
+
+  @override
+  Stream<String> get outputUserBio => _BioController.stream.map((bio) => bio);
+
+  @override
+  Stream<List<List<String>>> get outputHistory =>
+      _historyController.stream.map((history) => history);
+
+  @override
+  Stream<String> get outputUserImage => _profilePicStreamController.stream
+      .map((profilePicture) => profilePicture);
+
+  _areAllInputValid() {
+    areAllInputsValid
+        .add((_userKeyValidation(userKey) && _messageValidation(userMessage)));
+  }
+
+  //---------------------Algorithm Operations---------------------------------//
 
   bool _userKeyValidation(String userKey) {
     if (willUserEnterKey) {
@@ -132,44 +207,15 @@ class MainViewModel extends BaseViewModel
         case 6:
           return _desAlgorithm.keyValidation(userKey);
         default:
-          return false; //TODO edit
+          return false;
       }
     } else {
       return true;
     }
   }
 
-  @override
-  Stream<bool> get outputIsMessageValid => _messageStreamController.stream
-      .map((message) => _messageValidation(message));
-
   bool _messageValidation(String message) {
-    //TODO message validation
     return message.isNotEmpty;
-  }
-
-  @override
-  setAlgorithm(int index) {
-    // inputState.add(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
-    this.index = index;
-    (index == 2 ||
-            index == 3 ||
-            index == 4 ||
-            index == 6) //  have not auto generate key
-        ? setKeyState(true)
-        : setKeyState(false); //////////////////////////////////////////
-    inputAlgorithm.add(algorithms[index]);
-    inputEncryptionResult.add(null);
-    setUserKey("");
-    // inputGeneratedKey.add(null);
-    _areAllInputValid();
-  }
-
-  @override
-  setMessage(String message) {
-    inputMessage.add(message);
-    userMessage = message;
-    _areAllInputValid();
   }
 
   @override
@@ -197,7 +243,7 @@ class MainViewModel extends BaseViewModel
               : {};
           break;
         }
-      case 2: /////////////////////////////////////////////////////////////
+      case 2:
         {
           result = _playfairAlgorithm.encode(userMessage, userKey);
           inputEncryptionResult.add(result);
@@ -236,7 +282,8 @@ class MainViewModel extends BaseViewModel
           break;
         }
     }
-    _appPreferences.addToHistory(userMessage, result,willUserEnterKey?userKey: generatedKey);
+    _appPreferences.addToHistory(
+        userMessage, result, willUserEnterKey ? userKey : generatedKey);
   }
 
   @override
@@ -290,26 +337,38 @@ class MainViewModel extends BaseViewModel
     _appPreferences.addToHistory(result, userMessage, userKey);
   }
 
+//------------------------input functions------------------------------------//
+
+  @override
+  setAlgorithm(int index) {
+    // inputState.add(LoadingState(stateRendererType: StateRendererType.popupLoadingState));
+    this.index = index;
+    (index == 2 ||
+            index == 3 ||
+            index == 4 ||
+            index == 6) //  have not auto generate key
+        ? setKeyState(true)
+        : setKeyState(false);
+    inputAlgorithm.add(algorithms[index]);
+    inputEncryptionResult.add(null);
+    setUserKey("");
+    // inputGeneratedKey.add(null);
+    _areAllInputValid();
+  }
+
+  @override
+  setMessage(String message) {
+    inputMessage.add(message);
+    userMessage = message;
+    _areAllInputValid();
+  }
+
   @override
   setUserKey(String userKey) {
     inputUserKey.add(userKey);
     this.userKey = userKey;
     _areAllInputValid();
   }
-
-  @override
-  Sink get inputUserKey => _userKeyStreamController.sink;
-
-  @override
-  Stream<bool> get outputIsUserKeyValid => _userKeyStreamController.stream
-      .map((userKey) => _userKeyValidation(userKey));
-
-  @override
-  Sink get inputUserKeyState => _userKeyStateStreamController.sink;
-
-  @override
-  Stream<bool> get outputUserKeyState =>
-      _userKeyStateStreamController.stream.map((key) => key);
 
   @override
   setKeyState(bool userKeyState) {
@@ -319,25 +378,13 @@ class MainViewModel extends BaseViewModel
   }
 
   @override
-  Sink get inputEncryptionResult => _encryptionResultStreamController.sink;
-
-  @override
-  Stream<String?> get outputEncryptionResult =>
-      _encryptionResultStreamController.stream.map((result) => result);
-
-  @override
-  Sink get inputGeneratedKey => _generatedKeyStreamController.sink;
-
-  @override
-  Stream<String?> get outputGeneratedKey =>
-      _generatedKeyStreamController.stream.map((key) => key);
-
-  @override
   setGeneratedKey(String key) {
     inputGeneratedKey.add(key);
     generatedKey = key;
     _areAllInputValid();
   }
+
+  //---------------------User data management---------------------------------//
 
   _getUserData() async {
     userDataModel = await _localDataSource.getUserData();
@@ -349,32 +396,6 @@ class MainViewModel extends BaseViewModel
     _appPreferences.changeAppLanguage();
     Phoenix.rebirth(context);
   }
-
-  logout(BuildContext context) {
-    //TODO study ...
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      _appPreferences.logout();
-      _localDataSource.clearCache();
-      Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
-      //   _viewModel.dispose();
-      //  super.dispose();
-      dispose();
-      print("scedjual dis");
-    });
-    // Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
-    // _viewModel.dispose();
-    // super.dispose();
-    // dispose();
-    // print("diiiiiiiiiiiiiiiiiiiiiiiiiiis");
-    //Navigator.pushReplacementNamed(context, Routes.loginRoute);
-  }
-
-  @override
-  Sink get inputUserImage => _profilePicStreamController.sink;
-
-  @override
-  Stream<String> get outputUserImage => _profilePicStreamController.stream
-      .map((profilePicture) => profilePicture);
 
   setProfilePicture(File profilePicture, BuildContext context) async {
     profilePic = profilePicture;
@@ -411,20 +432,6 @@ class MainViewModel extends BaseViewModel
         .set({"bio": bio}, SetOptions(merge: true));
   }
 
-  @override
-  Sink get inputUserBio => _BioController.sink;
-
-  @override
-  Stream<String> get outputUserBio => _BioController.stream.map((bio) => bio);
-
-  @override
-  Sink get inputHistory => _historyController.sink;
-
-  @override
-  Stream<List<List<String>>> get outputHistory =>
-      _historyController.stream.map((history) => history);
-
-  @override
   getHistory() async {
     history = await _appPreferences.getHistory();
     print(history);
@@ -435,6 +442,27 @@ class MainViewModel extends BaseViewModel
     _appPreferences.removeFromHistory(index);
     getHistory();
   }
+
+  logout(BuildContext context) {
+    //TODO study ...
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _appPreferences.logout();
+      _localDataSource.clearCache();
+      Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
+      //   _viewModel.dispose();
+      //  super.dispose();
+      dispose();
+      print("scedjual dis");
+    });
+    // Navigator.of(context).pushReplacementNamed(Routes.loginRoute);
+    // _viewModel.dispose();
+    // super.dispose();
+    // dispose();
+    // print("diiiiiiiiiiiiiiiiiiiiiiiiiiis");
+    //Navigator.pushReplacementNamed(context, Routes.loginRoute);
+  }
+
+//****************************************************************************//
 }
 
 abstract class MainViewModelInputs {
@@ -471,8 +499,6 @@ abstract class MainViewModelInputs {
   setKeyState(bool userKeyState);
 
   getDecode();
-
-  getHistory();
 }
 
 abstract class MainViewModelOutputs {

@@ -21,6 +21,26 @@ class MainView extends StatefulWidget {
   State<MainView> createState() => _MainViewState();
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//                                                                            //
+//                                                                            //
+//                                                                            //
+//                                                                            //
+//                                                                            //
+//                             Absurd code 😂                                 //
+//                      don't try to understand it                            //
+//                             go to model                                    //
+//                                                                            //
+//                                                                            //
+//                                                                            //
+//                                                                            //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
+
+
 class _MainViewState extends State<MainView> {
   final MainViewModel _viewModel = instance<MainViewModel>();
   final ImagePicker _imagePicker = instance<ImagePicker>();
@@ -36,7 +56,7 @@ class _MainViewState extends State<MainView> {
 
   dismissDialog(BuildContext context) {
     if (_isCurrentDialogShowing(context)) {
-      Navigator.of(context, rootNavigator: true).pop(true); //TODO learn ?????
+      Navigator.of(context, rootNavigator: true).pop(true);
     }
   }
 
@@ -433,7 +453,6 @@ class _MainViewState extends State<MainView> {
                                                       ),
                                                     ),
 
-                                                    //////////////////////
                                                     const SizedBox(
                                                       height: AppSize.s20 * 2,
                                                     ),
@@ -446,7 +465,6 @@ class _MainViewState extends State<MainView> {
                                             ),
                                           ),
 
-                                          ///////////////////////////////////////////////////////////////////////////////////////////////////////////
                                         ),
                                       );
                                     });
@@ -1277,7 +1295,9 @@ class _MainViewState extends State<MainView> {
             Radius.circular(AppSize.s20 * 1.3),
           ),
         ),
-        child: Row(mainAxisSize: MainAxisSize.max,mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
               flex: 10,
