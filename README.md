@@ -65,6 +65,6 @@ flutter run
 <p>In addition to being a great learning resource, Swidan's Encryption Hub also has practical uses in real-world scenarios. For example, it could be used by journalists, activists, or anyone who needs to send sensitive information securely. It could also be used by businesses to encrypt their internal communications or by individuals who want to protect their personal data.</p>
 <p>Swidan's Encryption Hub is also a great example of how to implement security best practices in mobile app development. The app uses secure encryption algorithms, enforces strong and secure passwords, and provides validation for all user inputs. It also includes a full authentication system with email verification, which is an important security feature for any app that handles sensitive information.</p>
 <p>In conclusion, Swidan's Encryption Hub is a well-designed and useful mobile app that provides a variety of encryption algorithms with full and custom validation for inputs. It is built using Flutter and Dart, and is connected to Firebase for a secure and scalable backend. The app is also open-source, making it a great learning resource for anyone who wants to learn more about mobile app development, cryptography, and security.</p>
-
+<h2>License</h2>
 <p>This project is licensed under the MIT License - see LICENSE.md for details.
 </p>
